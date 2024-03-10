@@ -4,17 +4,19 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { MongooseModule } from '@nestjs/mongoose';
+import { PrismaService } from './prisma.service';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    envFilePath: '.env',
-    isGlobal: true
-  }),
-  MongooseModule.forRoot(process.env.DATABASE_URL),
-  UserModule, 
-  AuthModule],
+  imports: [ConfigModule.forRoot(), UserModule, AuthModule, MailerModule.forRoot({
+    transport: {
+      host: 'smtp.gmail.com',
+      auth: {
+        user: 'Ngoanhvgcc200153'
+      },
+    }
+  })],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}
