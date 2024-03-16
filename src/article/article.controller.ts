@@ -1,34 +1,59 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { ArticleService } from './article.service';
-import { CreateArticleDto } from './dto/article.dto';
-import { Article } from './schema/article.schema';
+import { Article } from './schemas/article.schema';
+import { CreateArticleDto } from './dto/create-article.dto';
+import { UpdateArticleDto } from './dto/update-article.dto';
+import { Query as ExpressQuery } from 'express-serve-static-core';
 
 @Controller('articles')
 export class ArticleController {
-    constructor(private readonly articleService: ArticleService) { }
+  constructor(private articleService: ArticleService) {}
 
-    @Post()
-    async create(@Body() createArticleDto: CreateArticleDto): Promise<Article> {
-        return this.articleService.create(createArticleDto);
-    }
+  @Get()
+  async getAllArticles(@Query() query: ExpressQuery): Promise<Article[]> {
+    return this.articleService.findAll(query);
+  }
 
-    @Get()
-    async findAll(): Promise<Article[]> {
-        return this.articleService.findAll();
-    }
+  @Post()
+  async createArticle(
+    @Body()
+    createArticleDto: CreateArticleDto,
+  ): Promise<Article> {
+    return this.articleService.create(createArticleDto);
+  }
 
-    @Get(':id')
-    async findOne(@Param('id') id: string): Promise<Article> {
-        return this.articleService.findOne(id);
-    }
+  @Get(':id')
+  async getArticleById(
+    @Param('id')
+    id: string,
+  ): Promise<Article> {
+    return this.articleService.findById(id);
+  }
 
-    @Put(':id')
-    async update(@Param('id') id: string, @Body() updateArticleDto: CreateArticleDto): Promise<Article> {
-        return this.articleService.update(id, updateArticleDto);
-    }
+  @Put(':id')
+  async updateArticle(
+    @Param('id')
+    id: string,
+    @Body()
+    updateArticleDto: UpdateArticleDto,
+  ): Promise<Article> {
+    return this.articleService.updateById(id, updateArticleDto);
+  }
 
-    @Delete(':id')
-    async remove(@Param('id') id: string): Promise<Article> {
-        return this.articleService.remove(id);
-    }
+  @Delete(':id')
+  async deleteArticle(
+    @Param('id')
+    id: string,
+  ): Promise<Article> {
+    return this.articleService.deleteById(id);
+  }
 }

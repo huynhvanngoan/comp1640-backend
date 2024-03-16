@@ -1,31 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Article } from './schemas/article.schema';
 import { Model } from 'mongoose';
-import { Article } from './schema/article.schema';
-import { CreateArticleDto } from './dto/article.dto';
-
+import { Query } from 'express-serve-static-core';
 @Injectable()
 export class ArticleService {
-    constructor(@InjectModel(Article.name) private readonly articleModel: Model<Article>) { }
+  constructor(
+    @InjectModel(Article.name)
+    private articleModel: Model<Article>,
+  ) {}
 
-    async create(createArticleDto: CreateArticleDto): Promise<Article> {
-        const createdArticle = new this.articleModel(createArticleDto);
-        return createdArticle.save();
-    }
+  async findAll(query: Query): Promise<Article[]> {
+    const resPerPage = 2;
+    const currentPage = Number(query.page) || 1;
 
-    async findAll(): Promise<Article[]> {
-        return this.articleModel.find().exec();
-    }
+    const skip = resPerPage * (currentPage - 1);
 
-    async findOne(id: string): Promise<Article> {
-        return this.articleModel.findById(id).exec();
-    }
+    const keyword = query.keyword
+      ? {
+          title: {
+            $regex: query.keyword,
+            $options: 'i',
+          },
+        }
+      : {};
 
-    async update(id: string, updateArticleDto: CreateArticleDto): Promise<Article> {
-        return this.articleModel.findByIdAndUpdate(id, updateArticleDto, { new: true }).exec();
-    }
+    const articles = await this.articleModel
+      .find({ ...keyword })
+      .limit(resPerPage)
+      .skip(skip);
+    return articles;
+  }
 
-    async remove(id: string): Promise<Article> {
-        return this.articleModel.findByIdAndDelete(id).exec();
+  async create(article: Article): Promise<Article> {
+    const res = await this.articleModel.create(article);
+    return res;
+  }
+
+  async findById(id: string): Promise<Article> {
+    const article = await this.articleModel.findById(id);
+
+    if (!article) {
+      throw new NotFoundException('Article not found.');
     }
+    return article;
+  }
+
+  async updateById(id: string, article: Article): Promise<Article> {
+    return await this.articleModel.findByIdAndUpdate(id, article, {
+      new: true,
+      runValidator: true,
+    });
+  }
+
+  async deleteById(id: string): Promise<Article> {
+    return await this.articleModel.findByIdAndDelete(id);
+  }
 }
