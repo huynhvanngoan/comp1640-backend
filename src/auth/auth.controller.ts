@@ -1,30 +1,37 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { CreateUserDto } from 'src/user/dto/user.dto';
-import { UserService } from 'src/user/user.service';
-import { LoginDto } from './dto/auth.dto';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RefreshJwtGuard } from './guards/refresh.guard';
+import { CreateUserDto } from './dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
+import { JwtGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private userService: UserService,
-            private authService: AuthService
-        ) {}
+  constructor(private authService: AuthService) {}
 
-    @Post('register')
-    async registerUser(@Body() createUserDto: CreateUserDto) {
-        return await this.userService.create(createUserDto)
-    }
+  @Post('create')
+  async create(@Body() createUserDto: CreateUserDto) {
+    return this.authService.create(createUserDto);
+  }
 
-    @Post('login')
-    async login(@Body() loginDto: LoginDto) {
-        return await this.authService.login(loginDto);
-    }
+  @Post('login')
+  async login(
+    @Body()
+    loginDto: LoginDto,
+  ) {
+    return this.authService.login(loginDto);
+  }
 
-    @UseGuards(RefreshJwtGuard)
-    @Post('refresh') 
-    async refreshToken(@Request() req){
-        return await this.authService.refreshToken(req.user);
-    }
+  @UseGuards(JwtGuard)
+  @Get('user/:id')
+  async getUserProfile(
+    @Param('id')
+    id: string,
+  ) {
+    return await this.authService.findById(id);
+  }
+
+  @Post('refresh')
+  async refreshToken() {
+    
+  }
 }
