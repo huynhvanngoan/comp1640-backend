@@ -3,8 +3,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { User } from './user/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Article } from './articles/entities/article.entity';
+import { User } from './user/entities/user.entity';
 
 
 @Module({
@@ -19,7 +20,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE_NAME'),
-        entities: [User],
+        entities: [User, Article],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -29,4 +30,4 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
