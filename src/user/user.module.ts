@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, NestModule, Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { User } from './user.entity';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -13,7 +13,6 @@ import { JwtModule } from '@nestjs/jwt';
       global: true,
       signOptions: { expiresIn: '1d' },
     }),
-  
   ],
   providers: [UserService, AuthService],
   controllers: [UserController],

@@ -3,26 +3,29 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   Post,
   Put,
+  // Query,
+  Param,
   ParseIntPipe,
-  UseInterceptors,
   ClassSerializerInterceptor,
+  UseInterceptors,
   UseGuards,
-  Request,
+  // Request,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
+// import { CreateUserDto } from './dtos/create-user.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { RegisterUserDto } from './dto/register-user.dto';
+import { RegisterUserDto } from './dtos/register-user.dto';
 import { AuthService } from './auth.service';
-import { LoginUserDto } from './dto/login.dto';
+import { LoginUserDto } from './dtos/Login.dto';
+import { CurrentUser } from './decorators/currentUser.decorator';
+import { User } from './user.entity';
+import { RoleGuard } from 'src/guards/role.guard';
 
 @Controller('/api/v1/users')
 @UseInterceptors(ClassSerializerInterceptor)
-@UseInterceptors(LoggingInterceptor)
 export class UserController {
   constructor(
     private userService: UserService,
@@ -30,57 +33,51 @@ export class UserController {
   ) {}
 
   @Get()
+  @UseGuards(new RoleGuard(['user', 'admin']))
   @UseGuards(AuthGuard)
   getAllUser() {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  getUserById(
-    @Param('id', ParseIntPipe)
-    id: number,
-  ) {
+  @Get('/current-user')
+  @UseGuards(AuthGuard)
+  getCurrentUser(@CurrentUser() currentUser: User) {
+    return currentUser;
+  }
+
+  @Get('/:id')
+  getUser(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findById(id);
   }
 
-  @Put(':id')
+  @Put('/:id')
+  @UseGuards(new RoleGuard(['user', 'admin', 'mod']))
+  @UseGuards(AuthGuard)
   updateUser(
-    @Param('id', ParseIntPipe)
-    id: number,
-    @Body()
-    requestBody: UpdateUserDto,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() requestBody: UpdateUserDto,
+    @CurrentUser() currentUser: User,
   ) {
-    return this.userService.updateById(id, requestBody);
+    return this.userService.updateById(id, requestBody, currentUser);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
+  @UseGuards(new RoleGuard(['user', 'admin', 'mod']))
+  @UseGuards(AuthGuard)
   deleteUser(
-    @Param('id', ParseIntPipe)
-    id: number,
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() currentUser: User,
   ) {
-    return this.userService.deleteById(id);
+    return this.userService.deleteById(id, currentUser);
   }
 
-  @Post('register')
-  registerUser(
-    @Body()
-    requestBody: RegisterUserDto,
-  ) {
+  @Post('/register')
+  registerUser(@Body() requestBody: RegisterUserDto) {
     return this.authService.register(requestBody);
   }
 
-  @Post('login')
-  loginUser(
-    @Body()
-    requestBody: LoginUserDto,
-  ) {
+  @Post('/login')
+  loginUser(@Body() requestBody: LoginUserDto) {
     return this.authService.login(requestBody);
-  }
-
-  @Get('current-user')
-  getCurrentUser(
-    @Request() req,
-  ) {
-    return this.authService.getCurrentUser(req);
   }
 }
