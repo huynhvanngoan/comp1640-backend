@@ -28,7 +28,7 @@ export class Article {
     @Column()
     date: Date;
 
-    @ManyToOne(() => User, user => user.article)
+    @ManyToOne(() => User, user => user.articles)
     // @JoinColumn({ name: 'user_id' })
     user: User;
 }

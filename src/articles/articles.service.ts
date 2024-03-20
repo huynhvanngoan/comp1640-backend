@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from './entities/article.entity';
 import { Repository } from 'typeorm';
 import { CreateArticleDto } from './dto/ceate-article.dto';
+import { User } from 'src/user/entities/user.entity';
 @Injectable()
 export class ArticlesService {
     constructor(
@@ -10,8 +11,9 @@ export class ArticlesService {
         private readonly articleRepository: Repository<Article>,
     ) { }
 
-    async create(createArticleDto: CreateArticleDto): Promise<Article> {
+    async create(createArticleDto: CreateArticleDto, currentUser: User): Promise<Article> {
         const article = this.articleRepository.create(createArticleDto);
+        article.user = currentUser;
         return this.articleRepository.save(article);
     }
 

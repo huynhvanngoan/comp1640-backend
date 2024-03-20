@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Article } from './articles/entities/article.entity';
 import { User } from './user/entities/user.entity';
+import { ArticlesModule } from './articles/articles.module';
 
 
 @Module({
@@ -25,7 +26,8 @@ import { User } from './user/entities/user.entity';
       }),
       inject: [ConfigService],
     }),
-    UserModule
+    UserModule,
+    ArticlesModule
   ],
   controllers: [AppController],
   providers: [AppService],
