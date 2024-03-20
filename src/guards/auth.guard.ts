@@ -5,7 +5,6 @@ import {
   ForbiddenException,
   BadRequestException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 

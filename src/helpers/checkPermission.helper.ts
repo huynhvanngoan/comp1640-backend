@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { User } from 'src/user/user.entity';
+import { User } from 'src/user/entities/user.entity';
 
 export class Permission {
   static check(id: number, currentUser: User) {
