@@ -1,9 +1,10 @@
-import { BadRequestException, Injectable, Request } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { RegisterUserDto } from './dto/register-user.dto';
+import { RegisterUserDto } from './dtos/register-user.dto';
 import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
-import { LoginUserDto } from './dto/login.dto';
+import { LoginUserDto } from './dtos/Login.dto';
+import { UserHelper } from 'src/helpers/user.helper';
 
 @Injectable()
 export class AuthService {
@@ -13,49 +14,42 @@ export class AuthService {
   ) {}
 
   async register(requestBody: RegisterUserDto) {
-    //check email is exist
+    // check email is exist
     const userByEmail = await this.userService.findByEmail(requestBody.email);
-
     if (userByEmail) {
-      throw new BadRequestException('Email is already exist!');
+      throw new BadRequestException('Email already exist!');
     }
 
-    //hash password
+    // hash password
     const hashedPassword = await bcrypt.hash(requestBody.password, 10);
-
     requestBody.password = hashedPassword;
 
-    //save to db
+    // save to db
     const savedUser = await this.userService.create(requestBody);
 
-    //generate jwt token
-    const payload = {
-      id: savedUser.id,
-      firstName: savedUser.firstName,
-      lastName: savedUser.lastName,
-      email: savedUser.email,
-      role: savedUser.role,
-    };
+    // generate jwt token
+    const payload = UserHelper.generateUserPayload(savedUser);
 
     const access_token = await this.jwtService.signAsync(payload, {
       secret: process.env.JWT_SECRET,
     });
 
     return {
-      msg: 'User has been created',
+      msg: 'User has been created!',
       access_token,
+      data: savedUser,
     };
   }
 
   async login(requestBody: LoginUserDto) {
     const userByEmail = await this.userService.findByEmail(requestBody.email);
 
-    //check email
     if (!userByEmail) {
       throw new BadRequestException('Invalid Credentials!');
     }
 
-    //check password
+    // check password
+
     const isMatchPassword = await bcrypt.compare(
       requestBody.password,
       userByEmail.password,
@@ -65,27 +59,17 @@ export class AuthService {
       throw new BadRequestException('Invalid Credentials!');
     }
 
-    const payload = {
-      id: userByEmail.id,
-      firstName: userByEmail.firstName,
-      lastName: userByEmail.lastName,
-      email: userByEmail.email,
-      role: userByEmail.role,
-    };
+    // generate jwt token
+    const payload = UserHelper.generateUserPayload(userByEmail);
 
     const access_token = await this.jwtService.signAsync(payload, {
       secret: process.env.JWT_SECRET,
     });
 
     return {
-      msg: 'User has been login successfully',
+      msg: 'User has been login successfully!',
       access_token,
+      data: userByEmail,
     };
-  }
-
-  async getCurrentUser(
-    @Request() req
-  ) {
-    console.log(req.currentUser);
   }
 }
