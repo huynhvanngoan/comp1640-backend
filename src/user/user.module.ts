@@ -1,10 +1,10 @@
-import { MiddlewareConsumer, NestModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user.entity';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
+import { User } from './entities/user.entity';
 
 @Module({
   imports: [

@@ -21,8 +21,9 @@ import { RegisterUserDto } from './dtos/register-user.dto';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dtos/Login.dto';
 import { CurrentUser } from './decorators/currentUser.decorator';
-import { User } from './user.entity';
+
 import { RoleGuard } from 'src/guards/role.guard';
+import { User } from './entities/user.entity';
 
 @Controller('/api/v1/users')
 @UseInterceptors(ClassSerializerInterceptor)
