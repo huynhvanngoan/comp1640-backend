@@ -1,8 +1,6 @@
-import { Exclude } from 'class-transformer';
 import { Academicyear } from 'src/academic-year/entities/academic-year.entity';
-import { Roles } from 'src/enums/roles.enum';
 import { User } from 'src/user/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 
 @Entity()

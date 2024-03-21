@@ -22,12 +22,8 @@ export class User {
     @Exclude()
     password: string;
 
-    @Column()
+    @Column({ default: Roles.ADMIN })
+    @Exclude()
     role: Roles;
 
-    @Column({ default: true })
-    isActive: boolean;
-
-    @OneToMany(() => Article, (articles) => articles.user)
-    articles: Article[];
 }
