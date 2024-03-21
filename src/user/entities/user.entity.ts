@@ -4,6 +4,7 @@ import { Roles } from 'src/enums/roles.enum';
 
 @Entity()
 export class User {
+  [x: string]: any;
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,8 +21,10 @@ export class User {
   @Exclude()
   password: string;
 
+  @Column({ default: 1 })
+  status: number;
+
   @Column({ default: Roles.ADMIN })
   @Exclude()
   role: Roles;
-
 }

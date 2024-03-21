@@ -1,7 +1,6 @@
-import { Exclude } from 'class-transformer';
-import { Roles } from 'src/enums/roles.enum';
+
 import { User } from 'src/user/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 
 @Entity()
@@ -28,7 +27,7 @@ export class Article {
     @Column()
     date: Date;
 
-    @ManyToOne(() => User, user => user.article)
+    @ManyToOne(() => User, user => user.articles)
     // @JoinColumn({ name: 'user_id' })
     user: User;
 }
