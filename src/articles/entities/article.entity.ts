@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Academicyear } from 'src/academic-year/entities/academic-year.entity';
 import { Roles } from 'src/enums/roles.enum';
 import { User } from 'src/user/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
@@ -31,4 +32,7 @@ export class Article {
     @ManyToOne(() => User, user => user.articles)
     // @JoinColumn({ name: 'user_id' })
     user: User;
+    @ManyToOne(() => Academicyear, academic => academic.academics)
+    // @JoinColumn({ name: 'user_id' })
+    academic: Academicyear;
 }

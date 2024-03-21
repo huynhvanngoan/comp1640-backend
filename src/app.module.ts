@@ -7,6 +7,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Article } from './articles/entities/article.entity';
 import { User } from './user/entities/user.entity';
 import { ArticlesModule } from './articles/articles.module';
+import { AcademicYearModule } from './academic-year/academic-year.module';
+import { Academicyear } from './academic-year/entities/academic-year.entity';
 
 
 @Module({
@@ -21,13 +23,14 @@ import { ArticlesModule } from './articles/articles.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE_NAME'),
-        entities: [User, Article],
+        entities: [User, Article, Academicyear],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
     UserModule,
-    ArticlesModule
+    ArticlesModule,
+    AcademicYearModule
   ],
   controllers: [AppController],
   providers: [AppService],
