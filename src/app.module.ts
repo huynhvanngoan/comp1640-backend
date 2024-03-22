@@ -13,17 +13,14 @@ import { ArticlesModule } from './articles/articles.module';
 import { AcademicYearModule } from './academic-year/academic-year.module';
 
 import { Article } from './articles/entities/article.entity';
+import { Academicyear } from './academic-year/entities/academic-year.entity';
 
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Article]),
+    TypeOrmModule.forFeature([User, Article, Academicyear]),
     ConfigModule.forRoot(),
-
-    UserModule,
-    ArticlesModule,
-    AcademicYearModule,
     TypeOrmModule.forRoot(dataSourceOptions),
     UserModule,
     ArticlesModule,

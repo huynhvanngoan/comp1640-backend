@@ -13,10 +13,10 @@ export class Academicyear {
     name: string;
 
     @Column()
-    openDay: Date;
+    openDate: Date;
 
     @Column()
-    closeDay: Date;
+    closeDate: Date;
 
     @OneToMany(() => Article, (articles) => articles.academic)
     articles: Article[];

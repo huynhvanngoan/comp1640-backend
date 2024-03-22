@@ -12,8 +12,20 @@ export class ArticlesController {
 
     @Post()
     @UseGuards(AuthGuard)
-    create(@Body() createArticleDto: CreateArticleDto, @CurrentUser() currentUser: User): Promise<Article> {
-        return this.articlesService.create(createArticleDto, currentUser);
+    async create(@Body() createArticleDto: CreateArticleDto, @CurrentUser() currentUser: User): Promise<Article> {
+        const article = await this.articlesService.create(createArticleDto, currentUser);
+        return article;
+    }
+
+
+    @Put(':id/accept')
+    async acceptArticle(@Param('id') id: number): Promise<Article> {
+        return this.articlesService.acceptArticle(id);
+    }
+
+    @Get('status/:status')
+    async findByStatus(@Param('status') status: string): Promise<Article[]> {
+        return this.articlesService.findByStatus(status);
     }
 
     @Get()

@@ -14,7 +14,26 @@ export class ArticlesService {
     async create(createArticleDto: CreateArticleDto, currentUser: User): Promise<Article> {
         const article = this.articleRepository.create(createArticleDto);
         article.user = currentUser;
+        await this.articleRepository.save(article)
+        return article;
+    }
+
+    async acceptArticle(id: number): Promise<Article> {
+        const article = await this.articleRepository.findOneBy({ id });
+        if (!article) {
+            throw new Error('Article not found');
+        }
+        article.status = 'accepted';
         return this.articleRepository.save(article);
+    }
+
+
+    async findByStatus(status: string): Promise<Article[]> {
+        return this.articleRepository.find({
+            where: {
+                status: status
+            }
+        });
     }
 
     async findAll(): Promise<Article[]> {
