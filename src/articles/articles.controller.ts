@@ -1,14 +1,18 @@
-import { Body, Controller, Post, Get, Param, Put, Delete, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Put, Delete, UseGuards, ValidationPipe, Req } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/ceate-article.dto';
 import { Article } from './entities/article.entity';
 import { CurrentUser } from 'src/user/decorators/currentUser.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { CreateCommentDto } from 'src/comments/dto/create-comment.dto';
+import { CommentsService } from 'src/comments/comments.service';
+import { Comment } from 'src/comments/entities/comment.entity';
 
 @Controller('articles')
 export class ArticlesController {
-    constructor(private readonly articlesService: ArticlesService) { }
+    constructor(private readonly articlesService: ArticlesService, private readonly commentsService: CommentsService
+    ) { }
 
     @Post()
     @UseGuards(AuthGuard)
@@ -26,6 +30,14 @@ export class ArticlesController {
     @Get('status/:status')
     async findByStatus(@Param('status') status: string): Promise<Article[]> {
         return this.articlesService.findByStatus(status);
+    }
+
+    @Post(':id/comment')
+    @UseGuards(AuthGuard)
+    async createComment(@CurrentUser() currentUser: User, @Req() req, @Param('id') articleId: number): Promise<Comment> {
+        const createCommentDto: CreateCommentDto = req.body;
+        const comment = await this.commentsService.create(createCommentDto, currentUser, +articleId);
+        return comment;
     }
 
     @Get()
@@ -47,4 +59,8 @@ export class ArticlesController {
     remove(@Param('id') id: string): Promise<void> {
         return this.articlesService.remove(+id);
     }
+
+
+
+
 }

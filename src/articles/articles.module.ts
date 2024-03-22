@@ -7,10 +7,12 @@ import { UserService } from 'src/user/user.service';
 import { User } from 'src/user/entities/user.entity';
 import { Academicyear } from 'src/academic-year/entities/academic-year.entity';
 import { AcademicYearService } from 'src/academic-year/academic-year.service';
+import { Comment } from 'src/comments/entities/comment.entity';
+import { CommentsService } from 'src/comments/comments.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Article, User, Academicyear])],
+  imports: [TypeOrmModule.forFeature([Article, User, Academicyear, Comment])],
   controllers: [ArticlesController],
-  providers: [ArticlesService, UserService, AcademicYearService]
+  providers: [ArticlesService, UserService, AcademicYearService, CommentsService]
 })
 export class ArticlesModule { }

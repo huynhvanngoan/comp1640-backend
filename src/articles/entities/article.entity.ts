@@ -1,10 +1,12 @@
 import { Academicyear } from 'src/academic-year/entities/academic-year.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 
 
 @Entity()
 export class Article {
+    [x: string]: any;
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -29,7 +31,8 @@ export class Article {
     @ManyToOne(() => User, user => user.articles)
     // @JoinColumn({ name: 'user_id' })
     user: User;
-    @ManyToOne(() => Academicyear, academic => academic.academics)
-    // @JoinColumn({ name: 'user_id' })
-    academic: Academicyear;
+
+
+    @OneToMany(() => Comment, comment => comment.articles)
+    comment: Comment;
 }

@@ -14,17 +14,20 @@ import { AcademicYearModule } from './academic-year/academic-year.module';
 
 import { Article } from './articles/entities/article.entity';
 import { Academicyear } from './academic-year/entities/academic-year.entity';
+import { CommentsModule } from './comments/comments.module';
+import { Comment } from './comments/entities/comment.entity';
 
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Article, Academicyear]),
+    TypeOrmModule.forFeature([User, Article, Academicyear, Comment]),
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(dataSourceOptions),
     UserModule,
     ArticlesModule,
-    AcademicYearModule
+    AcademicYearModule,
+    CommentsModule
   ],
   controllers: [AppController],
   providers: [AppService, SeedsService],
