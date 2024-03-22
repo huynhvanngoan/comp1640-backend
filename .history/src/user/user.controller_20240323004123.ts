@@ -31,7 +31,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { storageConfig } from 'src/helpers/config.helper';
 import { extname } from 'path';
 
-@Controller('api/users')
+@Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(

@@ -75,14 +75,11 @@ export class AuthService {
         break;
       case 'guest':
         redirectUrl = '/guest-dashboard';
-        break;
       case 'department-manager':
-        redirectUrl = '/department-dashboard';
-        break;
+        redirectUrl = '/department-dashboard' 
       case 'marketing-coordinator':
-        redirectUrl = '/marketing-dashboard';
-        break;
-      default:
+        redirectUrl = '/marketing-dashboard'
+      default
         break;
     }
 
@@ -90,7 +87,7 @@ export class AuthService {
       msg: 'User has been login successfully!',
       access_token,
       data: userByEmail,
-      redirectUrl,
+      redirectUrl
     };
   }
 }

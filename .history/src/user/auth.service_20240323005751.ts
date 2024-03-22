@@ -76,6 +76,7 @@ export class AuthService {
       case 'guest':
         redirectUrl = '/guest-dashboard';
         break;
+
       case 'department-manager':
         redirectUrl = '/department-dashboard';
         break;

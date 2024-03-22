@@ -66,31 +66,17 @@ export class AuthService {
       secret: process.env.JWT_SECRET,
     });
     let redirectUrl = '/'; // Default redirection URL
-    switch (userByEmail.role) {
-      case 'admin':
-        redirectUrl = '/admin-dashboard'; // Redirect to admin dashboard
-        break;
-      case 'student':
-        redirectUrl = '/student-dashboard'; // Redirect to student dashboard
-        break;
-      case 'guest':
-        redirectUrl = '/guest-dashboard';
-        break;
-      case 'department-manager':
-        redirectUrl = '/department-dashboard';
-        break;
-      case 'marketing-coordinator':
-        redirectUrl = '/marketing-dashboard';
-        break;
-      default:
-        break;
+    if (userByEmail.role === 'admin') {
+      redirectUrl = '/admin-dashboard'; // Redirect to admin dashboard
+    } else if (userByEmail.role === 'student') {
+      redirectUrl = '/student-dashboard'; // Redirect to user dashboard
     }
 
     return {
       msg: 'User has been login successfully!',
       access_token,
       data: userByEmail,
-      redirectUrl,
+      redirectUrl
     };
   }
 }
