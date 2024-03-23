@@ -20,6 +20,9 @@ import { StudentModule } from './student/student.module';
 import { CommentsModule } from './comments/comments.module';
 import { Comment } from './comments/entities/comment.entity';
 import { AdminModule } from './admin/admin.module';
+import { FacultyService } from './faculty/faculty.service';
+import { FacultyModule } from './faculty/faculty.module';
+import { Faculty } from './faculty/entity/faculty.entity';
 
 
 
@@ -28,17 +31,18 @@ import { AdminModule } from './admin/admin.module';
   imports: [
 
     ConfigModule.forRoot(),
-    TypeOrmModule.forFeature([User, Article, Academicyear, Comment]),
+    TypeOrmModule.forFeature([User, Article, Academicyear, Comment, Faculty]),
     TypeOrmModule.forRoot(dataSourceOptions),
     UserModule,
     ArticlesModule,
     AcademicYearModule,
     StudentModule,
     CommentsModule,
-    AdminModule
+    AdminModule,
+    FacultyModule
 
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, FacultyService],
 })
 export class AppModule { }

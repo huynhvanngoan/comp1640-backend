@@ -37,7 +37,7 @@ export class UserController {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   @Get()
   @UseGuards(new RoleGuard(['admin']))
@@ -78,10 +78,7 @@ export class UserController {
     return this.userService.deleteById(id, currentUser);
   }
 
-  @Post('create-user')
-  registerUser(@Body() requestBody: RegisterUserDto) {
-    return this.authService.register(requestBody);
-  }
+
 
   @Post('login')
   loginUser(@Body() requestBody: LoginUserDto) {

@@ -1,16 +1,28 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { CreateAdminDto } from './dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/update-admin.dto';
+import { FacultyService } from 'src/faculty/faculty.service';
+import { CreateFacultyDto } from 'src/faculty/dto/faculty.dto';
+import { Faculty } from 'src/faculty/entity/faculty.entity';
+import { RegisterUserDto } from 'src/user/dtos/register-user.dto';
+import { AuthService } from 'src/user/auth.service';
 
-@Controller('admin')
+@Controller('api/admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(private readonly adminService: AdminService,
+    private readonly facultyService: FacultyService,
+    private readonly authService: AuthService,) { }
 
-  @Post()
-  create(@Body() createAdminDto: CreateAdminDto) {
-    return this.adminService.create(createAdminDto);
+  @Post('create-user')
+  registerUser(@Body() requestBody: RegisterUserDto) {
+    return this.authService.register(requestBody);
   }
+
+  @Post('/faculty')
+  createFaculty(@Body() createFacultyDto: CreateFacultyDto): Promise<Faculty> {
+    console.log(createFacultyDto);
+    return this.facultyService.createFaculty(createFacultyDto);
+  }
+
 
   @Get()
   findAll() {
@@ -22,10 +34,10 @@ export class AdminController {
     return this.adminService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
-    return this.adminService.update(+id, updateAdminDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
+  //   return this.adminService.update(+id, updateAdminDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
