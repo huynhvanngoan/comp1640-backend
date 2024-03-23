@@ -5,7 +5,6 @@ import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dtos/Login.dto';
 import { UserHelper } from 'src/helpers/user.helper';
-
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -33,7 +32,7 @@ export class AuthService {
     // save to db
     const savedUser = await this.userRepo.create({
       facultys: {
-        id: facultyId
+        id?: facultyId
       },
       firstName: requestBody.firstName,
       lastName: requestBody.lastName,

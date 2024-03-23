@@ -3,9 +3,8 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { AcademicYearService } from './academic-year.service';
 import { Academicyear } from './entities/academic-year.entity';
-import { RoleGuard } from 'src/guards/role.guard';
 
-@UseGuards(new RoleGuard(['admin']))
+@UseGuards
 @Controller('academic-years')
 export class AcademicYearController {
   constructor(private readonly academicYearService: AcademicYearService) { }

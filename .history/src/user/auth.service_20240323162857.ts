@@ -19,7 +19,7 @@ export class AuthService {
     private userService: UserService,
   ) { }
 
-  async register(requestBody: RegisterUserDto, facultyId: number) {
+  async register(requestBody: RegisterUserDto, facultyId: number|null) {
     // check email is exist
     const userByEmail = await this.userService.findByEmail(requestBody.email);
     if (userByEmail) {

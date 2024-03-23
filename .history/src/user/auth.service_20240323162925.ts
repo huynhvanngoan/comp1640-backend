@@ -19,28 +19,17 @@ export class AuthService {
     private userService: UserService,
   ) { }
 
-  async register(requestBody: RegisterUserDto, facultyId: number) {
+  async register(requestBody: RegisterUserDto, facultyId: number|null) {
     // check email is exist
     const userByEmail = await this.userService.findByEmail(requestBody.email);
     if (userByEmail) {
       throw new BadRequestException('Email already exist!');
     }
+    if(facultyId !== null) {
 
+    }
     // hash password
-    const hashedPassword = await bcrypt.hash(requestBody.password, 10);
-    requestBody.password = hashedPassword;
-
-    // save to db
-    const savedUser = await this.userRepo.create({
-      facultys: {
-        id: facultyId
-      },
-      firstName: requestBody.firstName,
-      lastName: requestBody.lastName,
-      email: requestBody.email,
-      password: requestBody.password,
-    });
-
+    
     // generate jwt token
     const payload = UserHelper.generateUserPayload(savedUser);
 

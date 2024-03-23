@@ -5,7 +5,6 @@ import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dtos/Login.dto';
 import { UserHelper } from 'src/helpers/user.helper';
-
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -19,27 +18,34 @@ export class AuthService {
     private userService: UserService,
   ) { }
 
-  async register(requestBody: RegisterUserDto, facultyId: number) {
+  async register(requestBody: RegisterUserDto, facultyId: number | null) {
     // check email is exist
     const userByEmail = await this.userService.findByEmail(requestBody.email);
     if (userByEmail) {
-      throw new BadRequestException('Email already exist!');
+      throw new BadRequestException('Email already exists!');
     }
 
     // hash password
     const hashedPassword = await bcrypt.hash(requestBody.password, 10);
     requestBody.password = hashedPassword;
 
-    // save to db
-    const savedUser = await this.userRepo.create({
-      facultys: {
-        id: facultyId
-      },
+    // create user object
+    const userObject= = {
       firstName: requestBody.firstName,
       lastName: requestBody.lastName,
       email: requestBody.email,
       password: requestBody.password,
-    });
+    };
+
+    // add facultys if facultyId is provided
+    if (facultyId !== null) {
+      userObject.facultys = {
+        id: facultyId
+      };
+    }
+
+    // save to db
+    const savedUser = await this.userRepo.create(userObject);
 
     // generate jwt token
     const payload = UserHelper.generateUserPayload(savedUser);
@@ -55,6 +61,7 @@ export class AuthService {
       data: savedUser,
     };
   }
+
 
   async login(requestBody: LoginUserDto) {
     const userByEmail = await this.userService.findByEmail(requestBody.email);

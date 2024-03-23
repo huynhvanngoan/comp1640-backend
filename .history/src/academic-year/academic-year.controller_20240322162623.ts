@@ -1,11 +1,9 @@
 // academic-year.controller.ts
 
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { AcademicYearService } from './academic-year.service';
 import { Academicyear } from './entities/academic-year.entity';
-import { RoleGuard } from 'src/guards/role.guard';
 
-@UseGuards(new RoleGuard(['admin']))
 @Controller('academic-years')
 export class AcademicYearController {
   constructor(private readonly academicYearService: AcademicYearService) { }
@@ -20,7 +18,6 @@ export class AcademicYearController {
     return this.academicYearService.findOne(+id);
   }
 
-  
   @Post()
   async create(@Body() academicYearData: Academicyear): Promise<Academicyear> {
     return this.academicYearService.create(academicYearData);

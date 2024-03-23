@@ -9,7 +9,7 @@ export class UserHelper {
       email: user.email,
       avatar: user.avatar,
       role: user.role,
-      facultyId: user.facultys
+      facultyId: user.faculty ? user.faculty.id : null
     };
 
     return payload;

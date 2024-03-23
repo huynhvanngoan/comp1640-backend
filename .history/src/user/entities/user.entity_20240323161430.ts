@@ -39,6 +39,6 @@ export class User {
     comments: Comment[];
 
     @ManyToOne(() => Faculty, faculty => faculty.user)
-    @JoinColumn({ name: "facultyId", })
+    @JoinColumn({ name: "facultyId", nu})
     facultys: Faculty;
 }

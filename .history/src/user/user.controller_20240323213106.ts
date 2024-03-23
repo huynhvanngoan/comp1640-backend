@@ -51,13 +51,12 @@ export class UserController {
   }
 
   @Get('/:id')
-  @UseGuards(new RoleGuard([ 'admin']))
   getUser(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findById(id);
   }
 
   @Put('/:id')
-  @UseGuards(new RoleGuard(['student', 'admin']))
+  @UseGuards(new RoleGuard(['user', 'admin']))
   @UseGuards(AuthGuard)
   updateUser(
     @Param('id', ParseIntPipe) id: number,

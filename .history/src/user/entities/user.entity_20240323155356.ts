@@ -9,6 +9,8 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColum
 
 @Entity()
 export class User {
+
+
     @PrimaryGeneratedColumn()
     id: number;
 

@@ -51,7 +51,8 @@ export class UserController {
   }
 
   @Get('/:id')
-  @UseGuards(new RoleGuard([ 'admin']))
+  @UseGuards(new RoleGuard(['student', 'admin']))
+
   getUser(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findById(id);
   }

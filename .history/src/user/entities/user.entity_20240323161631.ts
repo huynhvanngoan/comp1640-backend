@@ -38,7 +38,7 @@ export class User {
     @OneToMany(() => Comment, comment => comment.user)
     comments: Comment[];
 
-    @ManyToOne(() => Faculty, faculty => faculty.user)
+    @ManyToOne(() => Faculty, faculty => faculty.user,)
     @JoinColumn({ name: "facultyId", })
     facultys: Faculty;
 }

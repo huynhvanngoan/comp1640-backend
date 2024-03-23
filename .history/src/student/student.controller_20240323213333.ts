@@ -17,9 +17,9 @@ import { CreateArticleDto } from 'src/articles/dto/ceate-article.dto';
 import { Article } from 'src/articles/entities/article.entity';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { StudentService } from './student.service';
-import { RoleGuard } from 'src/guards/role.guard';
 
-@UseGuards(new RoleGuard(['student']))
+@UseGuards(new RoleGuard(['admin']))
+
 @Controller('student')
 export class StudentController {
   constructor(

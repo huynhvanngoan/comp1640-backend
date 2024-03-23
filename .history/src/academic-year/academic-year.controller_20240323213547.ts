@@ -5,7 +5,7 @@ import { AcademicYearService } from './academic-year.service';
 import { Academicyear } from './entities/academic-year.entity';
 import { RoleGuard } from 'src/guards/role.guard';
 
-@UseGuards(new RoleGuard(['admin']))
+@UseGuards(new RoleGuard(['']))
 @Controller('academic-years')
 export class AcademicYearController {
   constructor(private readonly academicYearService: AcademicYearService) { }

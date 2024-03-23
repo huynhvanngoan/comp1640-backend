@@ -25,21 +25,24 @@ export class AuthService {
     if (userByEmail) {
       throw new BadRequestException('Email already exist!');
     }
-
+    let savedUser;
+    if(facultyId !== null) {
+      savedUser = await this.userRepo.create({
+        facultys: {
+          id: facultyId
+        },
+        firstName: requestBody.firstName,
+        lastName: requestBody.lastName,
+        email: requestBody.email,
+        password: requestBody.password,
+      });
+      
+    }
     // hash password
     const hashedPassword = await bcrypt.hash(requestBody.password, 10);
     requestBody.password = hashedPassword;
 
     // save to db
-    const savedUser = await this.userRepo.create({
-      facultys: {
-        id: facultyId
-      },
-      firstName: requestBody.firstName,
-      lastName: requestBody.lastName,
-      email: requestBody.email,
-      password: requestBody.password,
-    });
 
     // generate jwt token
     const payload = UserHelper.generateUserPayload(savedUser);

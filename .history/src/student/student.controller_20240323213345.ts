@@ -19,7 +19,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { StudentService } from './student.service';
 import { RoleGuard } from 'src/guards/role.guard';
 
-@UseGuards(new RoleGuard(['student']))
+@UseGuards(new RoleGuard(['studrnt']))
 @Controller('student')
 export class StudentController {
   constructor(
