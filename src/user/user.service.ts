@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 // import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -15,7 +15,7 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
+  constructor(@InjectRepository(User) private userRepo: Repository<User>) { }
 
   // CRUD
   create(requestBody: RegisterUserDto) {
@@ -79,5 +79,9 @@ export class UserService {
     }
 
     return this.userRepo.remove(user);
+  }
+
+  async updateAvatar(id: number, avatar: string): Promise<UpdateResult> {
+    return await this.userRepo.update(id, { avatar });
   }
 }

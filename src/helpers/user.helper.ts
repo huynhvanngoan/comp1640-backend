@@ -7,6 +7,7 @@ export class UserHelper {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      avatar: user.avatar,
       role: user.role,
     };
 

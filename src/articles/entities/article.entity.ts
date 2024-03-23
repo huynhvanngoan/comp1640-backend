@@ -1,34 +1,50 @@
-import { Exclude } from 'class-transformer';
-import { Roles } from 'src/enums/roles.enum';
+import { Academicyear } from 'src/academic-year/entities/academic-year.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class Article {
-    [x: string]: any;
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column()
-    content: string;
+  @Column()
+  content: string;
 
-    @Column()
-    image: string;
+  @Column()
+  image: string;
 
-    @Column()
-    file: string;
+  @Column()
+  file: string;
 
-    @Column()
-    status: string;
+  @Column({ default: 'Pending' })
+  status: string;
 
-    @Column()
-    date: Date;
+  @CreateDateColumn()
+  created_at: Date;
 
-    @ManyToOne(() => User, user => user.article)
-    // @JoinColumn({ name: 'user_id' })
-    user: User;
+  @CreateDateColumn()
+  updated_at: Date;
+
+  @ManyToOne(() => User, (user) => user.articles)
+  // @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @ManyToOne(() => Academicyear, (academic) => academic.academics)
+  // @JoinColumn({ name: 'user_id' })
+  academic: Academicyear;
+
+  @OneToMany(() => Comment, (comment) => comment.articles)
+  comment: Comment;
 }

@@ -11,6 +11,9 @@ import {
   ClassSerializerInterceptor,
   UseInterceptors,
   UseGuards,
+  Req,
+  UploadedFile,
+  BadRequestException,
   // Request,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -24,17 +27,20 @@ import { CurrentUser } from './decorators/currentUser.decorator';
 
 import { RoleGuard } from 'src/guards/role.guard';
 import { User } from './entities/user.entity';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { storageConfig } from 'src/helpers/config.helper';
+import { extname } from 'path';
 
-@Controller('/api/v1/users')
+@Controller('api/users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   @Get()
-  @UseGuards(new RoleGuard(['user', 'admin']))
+  @UseGuards(new RoleGuard(['admin']))
   @UseGuards(AuthGuard)
   getAllUser() {
     return this.userService.findAll();
@@ -72,13 +78,47 @@ export class UserController {
     return this.userService.deleteById(id, currentUser);
   }
 
-  @Post('/register')
-  registerUser(@Body() requestBody: RegisterUserDto) {
-    return this.authService.register(requestBody);
-  }
 
-  @Post('/login')
+
+  @Post('login')
   loginUser(@Body() requestBody: LoginUserDto) {
     return this.authService.login(requestBody);
+  }
+
+  @Post('upload-avatar')
+  @UseGuards(AuthGuard)
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      storage: storageConfig('avatar'),
+      fileFilter: (req, file, cb) => {
+        const ext = extname(file.originalname);
+        const allowedExtArr = ['.jpg', '.png', '.jpeg'];
+        if (!allowedExtArr.includes(ext)) {
+          req.fileValidationError = `Wrong extension type. Accepted file ext are: ${allowedExtArr.toString()}`;
+          cb(null, false);
+        } else {
+          const fileSize = parseInt(req.headers['content-length']);
+          if (fileSize > 1024 * 1024 * 5) {
+            req.fileValidationError =
+              'File size is too large. Accepted file size is less than 5 MB';
+            cb(null, false);
+          } else {
+            cb(null, true);
+          }
+        }
+      },
+    }),
+  )
+  uploadAvatar(@Req() req: any, @UploadedFile() file: Express.Multer.File) {
+    if (req.fileValidationError) {
+      throw new BadRequestException(req.fileValidationError);
+    }
+    if (!file) {
+      throw new BadRequestException('File is required');
+    }
+    return this.userService.updateAvatar(
+      req.user_data.id,
+      file.destination + '/' + file.filename,
+    );
   }
 }

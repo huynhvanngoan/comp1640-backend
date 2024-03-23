@@ -1,4 +1,4 @@
-import { IsDateString, IsEmail, IsInt, IsNotEmpty, IsString, Length, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateArticleDto {
     @IsNotEmpty()
@@ -8,24 +8,4 @@ export class CreateArticleDto {
     @IsNotEmpty()
     @IsString()
     content: string;
-
-    @IsNotEmpty()
-    @IsString()
-    image: string;
-
-    @IsNotEmpty()
-    @IsString()
-    file: string;
-
-    @IsNotEmpty()
-    @IsString()
-    status: string;
-
-    @IsNotEmpty()
-    @IsDateString()
-    date: Date;
-
-
-
-
 }
