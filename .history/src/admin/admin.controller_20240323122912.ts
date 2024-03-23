@@ -35,17 +35,17 @@ export class AdminController {
     return this.adminService.findOne(+id);
   }
 
-
+<<<<<<< HEAD
   @Patch(':id')
   update(@Param('id') id: string) {
     return this.adminService.update(+id);
   }
-
+=======
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
   //   return this.adminService.update(+id, updateAdminDto);
   // }
-
+>>>>>>> 2cc48856f668a71e5b5d205d93178402058842fa
 
   @Delete(':id')
   remove(@Param('id') id: string) {

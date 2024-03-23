@@ -20,7 +20,7 @@ export class AdminService {
     return `This action returns a #${id} admin`;
   }
 
-
+<<<<<<< HEAD
   update(id: number) {
     return `This action updates a #${id} admin`;
   }

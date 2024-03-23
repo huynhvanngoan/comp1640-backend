@@ -6,4 +6,7 @@ export class AppService {
     return 'Hello World!';
   }
 
+  calc() {
+    return 1 + 1;
+  }
 }

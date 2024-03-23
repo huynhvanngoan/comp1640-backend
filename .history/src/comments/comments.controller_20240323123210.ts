@@ -1,5 +1,5 @@
 // comments.controller.ts
-import { Controller,  Get, Param,  Delete } from '@nestjs/common';
+import { Controller, Post, Get, Param, UseGuards, Delete } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { Comment } from './entities/comment.entity';
 

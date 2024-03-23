@@ -1,8 +1,11 @@
 // comments.controller.ts
-import { Controller,  Get, Param,  Delete } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, UseGuards, Delete } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { Comment } from './entities/comment.entity';
-
+import { AuthGuard } from 'src/guards/auth.guard';
+import { CurrentUser } from 'src/user/decorators/currentUser.decorator';
+import { User } from 'src/user/entities/user.entity';
+import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Controller('comments')
 export class CommentsController {

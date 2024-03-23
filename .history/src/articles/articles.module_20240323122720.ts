@@ -10,12 +10,19 @@ import { AcademicYearService } from 'src/academic-year/academic-year.service';
 import { Comment } from 'src/comments/entities/comment.entity';
 import { CommentsService } from 'src/comments/comments.service';
 import { UploadService } from './upload.service';
+<<<<<<< HEAD
 import { MailService } from 'src/mail/mail.service';
+
+
 
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Article, User, Academicyear, Comment]),
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2cc48856f668a71e5b5d205d93178402058842fa
     Comment
   ],
   controllers: [ArticlesController],

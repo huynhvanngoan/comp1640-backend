@@ -25,6 +25,7 @@ import { Faculty } from './faculty/entity/faculty.entity';
 
 @Module({
   imports: [
+
     ConfigModule.forRoot(),
     TypeOrmModule.forFeature([User, Article, Academicyear, Comment, Faculty]),
     TypeOrmModule.forRoot(dataSourceOptions),
@@ -34,8 +35,12 @@ import { Faculty } from './faculty/entity/faculty.entity';
     StudentModule,
     CommentsModule,
     AdminModule,
+<<<<<<< HEAD
+    MailModule
+=======
     FacultyModule
 
+>>>>>>> 2cc48856f668a71e5b5d205d93178402058842fa
   ],
   controllers: [AppController],
   providers: [AppService, FacultyService],

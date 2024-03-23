@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Param, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Param, Delete } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { FacultyService } from 'src/faculty/faculty.service';
 import { CreateFacultyDto } from 'src/faculty/dto/faculty.dto';
@@ -35,17 +35,17 @@ export class AdminController {
     return this.adminService.findOne(+id);
   }
 
-
+<<<<<<< HEAD
   @Patch(':id')
   update(@Param('id') id: string) {
     return this.adminService.update(+id);
   }
-
+=======
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
   //   return this.adminService.update(+id, updateAdminDto);
   // }
-
+>>>>>>> 2cc48856f668a71e5b5d205d93178402058842fa
 
   @Delete(':id')
   remove(@Param('id') id: string) {

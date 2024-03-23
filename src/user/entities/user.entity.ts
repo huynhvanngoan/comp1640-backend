@@ -3,13 +3,14 @@ import { Article } from 'src/articles/entities/article.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
 
 import { Roles } from 'src/enums/roles.enum';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Faculty } from 'src/faculty/entity/faculty.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
 
 
 @Entity()
 export class User {
 
-  
+
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -38,4 +39,7 @@ export class User {
 
     @OneToMany(() => Comment, comment => comment.user)
     comments: Comment[];
+
+    @ManyToOne(() => Faculty, faculty => faculty.user)
+    facultys: Faculty[];
 }
