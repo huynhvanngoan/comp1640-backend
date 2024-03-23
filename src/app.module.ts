@@ -4,25 +4,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
-
 import { dataSourceOptions } from 'db/data-source';
-
 import { User } from './user/entities/user.entity';
-
 import { ArticlesModule } from './articles/articles.module';
 import { AcademicYearModule } from './academic-year/academic-year.module';
-
 import { Article } from './articles/entities/article.entity';
 import { Academicyear } from './academic-year/entities/academic-year.entity';
-
 import { StudentModule } from './student/student.module';
-
 import { CommentsModule } from './comments/comments.module';
 import { Comment } from './comments/entities/comment.entity';
 import { AdminModule } from './admin/admin.module';
-
-
-
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -35,8 +27,8 @@ import { AdminModule } from './admin/admin.module';
     AcademicYearModule,
     StudentModule,
     CommentsModule,
-    AdminModule
-
+    AdminModule,
+    MailModule
   ],
   controllers: [AppController],
   providers: [AppService],
