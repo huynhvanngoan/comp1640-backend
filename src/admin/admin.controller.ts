@@ -1,25 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { FacultyService } from 'src/faculty/faculty.service';
 import { CreateFacultyDto } from 'src/faculty/dto/faculty.dto';
 import { Faculty } from 'src/faculty/entity/faculty.entity';
 import { RegisterUserDto } from 'src/user/dtos/register-user.dto';
 import { AuthService } from 'src/user/auth.service';
+import { UserService } from 'src/user/user.service';
 
 @Controller('api/admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService,
     private readonly facultyService: FacultyService,
-    private readonly authService: AuthService,) { }
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) { }
 
   @Post('create-user')
-  registerUser(@Body() requestBody: RegisterUserDto, @Query('facultyId') facultyId: number) {
+  registerUser(@Req() req, facultyId: number) {
+    const requestBody: RegisterUserDto = req.body;
+    facultyId = requestBody['facultyId'];
     return this.authService.register(requestBody, facultyId);
   }
 
   @Post('/faculty')
   createFaculty(@Body() createFacultyDto: CreateFacultyDto): Promise<Faculty> {
-    console.log(createFacultyDto);
     return this.facultyService.createFaculty(createFacultyDto);
   }
 

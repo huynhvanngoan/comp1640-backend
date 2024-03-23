@@ -26,14 +26,9 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(requestBody.password, 10);
     requestBody.password = hashedPassword;
 
-    console.log(facultyId)
-
-    const faculty = await this.facultyService.findById(facultyId);
-    console.log(faculty)
     // save to db
-    const savedUser = await this.userService.create({ ...requestBody, faculty: faculty });
+    const savedUser = await this.userService.create(requestBody, facultyId);
 
-    console.log(savedUser)
     // generate jwt token
     const payload = UserHelper.generateUserPayload(savedUser);
 
@@ -43,7 +38,6 @@ export class AuthService {
 
     return {
       msg: 'User has been created!',
-      faculty,
       access_token,
       data: savedUser,
     };
