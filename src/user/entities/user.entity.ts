@@ -42,5 +42,5 @@ export class User {
 
     @ManyToOne(() => Faculty, faculty => faculty.user)
     @JoinColumn({ name: "facultyId", })
-    facultys: Faculty[];
+    facultys: Faculty;
 }

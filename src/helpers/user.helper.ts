@@ -8,7 +8,8 @@ export class UserHelper {
       lastName: user.lastName,
       email: user.email,
       avatar: user.avatar,
-      role: user.role
+      role: user.role,
+      facultyId: user.facultys.id
     };
 
     return payload;

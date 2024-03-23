@@ -1,4 +1,0 @@
-import { PrimaryGeneratedColumn } from "typeorm";
-
-
-

@@ -18,8 +18,17 @@ export class UserService {
   constructor(@InjectRepository(User) private userRepo: Repository<User>) { }
 
   // CRUD
-  create(requestBody: RegisterUserDto) {
-    const user = this.userRepo.create(requestBody);
+  create(requestBody: RegisterUserDto, facultyId: number) {
+    const user = this.userRepo.create({
+      facultys: {
+        id: facultyId
+      },
+      firstName: requestBody.firstName,
+      lastName: requestBody.lastName,
+      email: requestBody.email,
+      password: requestBody.password,
+    });
+
 
     return this.userRepo.save(user);
   }
