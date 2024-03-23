@@ -1,6 +1,5 @@
 import { Exclude } from 'class-transformer';
 import { Article } from 'src/articles/entities/article.entity';
-import { Comment } from 'src/comments/entities/comment.entity';
 
 import { Roles } from 'src/enums/roles.enum';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
@@ -35,7 +34,7 @@ export class User {
 
     @OneToMany(() => Article, article => article.user)
     articles: Article[];
-
-    @OneToMany(() => Comment, comment => comment.user)
-    comments: Comment[];
+    
+    @OneToMany(() => Article, article => article.user)
+    articles: Article[];
 }

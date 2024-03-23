@@ -36,6 +36,6 @@ export class User {
     @OneToMany(() => Article, article => article.user)
     articles: Article[];
 
-    @OneToMany(() => Comment, comment => comment.user)
-    comments: Comment[];
+    @OneToMany(() => Comment, article => article.user)
+    comments: Article[];
 }

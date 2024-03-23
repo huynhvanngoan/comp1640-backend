@@ -14,19 +14,29 @@ import { AcademicYearModule } from './academic-year/academic-year.module';
 
 import { Article } from './articles/entities/article.entity';
 import { Academicyear } from './academic-year/entities/academic-year.entity';
+
 import { StudentModule } from './student/student.module';
+
+import { CommentsModule } from './comments/comments.module';
+import { Comment } from './comments/entities/comment.entity';
+import { AdminModule } from './admin/admin.module';
+
+
 
 
 @Module({
   imports: [
+
     ConfigModule.forRoot(),
-    TypeOrmModule.forFeature([User, Article, Academicyear]),
-    ConfigModule.forRoot(),
+    TypeOrmModule.forFeature([User, Article, Academicyear, Comment]),
     TypeOrmModule.forRoot(dataSourceOptions),
     UserModule,
     ArticlesModule,
     AcademicYearModule,
     StudentModule,
+    CommentsModule,
+    AdminModule
+
   ],
   controllers: [AppController],
   providers: [AppService],

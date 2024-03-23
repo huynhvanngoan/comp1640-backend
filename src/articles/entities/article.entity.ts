@@ -1,11 +1,14 @@
 import { Academicyear } from 'src/academic-year/entities/academic-year.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 import { User } from 'src/user/entities/user.entity';
+
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -25,7 +28,7 @@ export class Article {
   @Column()
   file: string;
 
-  @Column({ default: 'Pending'})
+  @Column({ default: 'Pending' })
   status: string;
 
   @CreateDateColumn()
@@ -41,4 +44,7 @@ export class Article {
   @ManyToOne(() => Academicyear, (academic) => academic.academics)
   // @JoinColumn({ name: 'user_id' })
   academic: Academicyear;
+
+  @OneToMany(() => Comment, (comment) => comment.articles)
+  comment: Comment;
 }

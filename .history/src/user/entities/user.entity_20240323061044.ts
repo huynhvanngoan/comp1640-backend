@@ -37,5 +37,5 @@ export class User {
     articles: Article[];
 
     @OneToMany(() => Comment, comment => comment.user)
-    comments: Comment[];
+    comments: Article[];
 }

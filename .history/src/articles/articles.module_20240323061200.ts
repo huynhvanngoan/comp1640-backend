@@ -16,7 +16,7 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Article, User, Academicyear, Comment]),
+    TypeOrmModule.forFeature([Article, User, Academicyear, Com]),
     MailerModule.forRootAsync({
       useFactory: async () => ({
         transport: {

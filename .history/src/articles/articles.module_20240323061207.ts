@@ -13,10 +13,11 @@ import { UploadService } from './upload.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
+import { CommentsModule } from 'src/comments/comments.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Article, User, Academicyear, Comment]),
+    TypeOrmModule.forFeature([Article, User, Academicyear, CommentsModule]),
     MailerModule.forRootAsync({
       useFactory: async () => ({
         transport: {

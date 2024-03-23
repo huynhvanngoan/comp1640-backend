@@ -6,11 +6,10 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { User } from './entities/user.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
-import { Article } from 'src/articles/entities/article.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Comment, Article]),
+    TypeOrmModule.forFeature([User, Comment]),
     JwtModule.register({
       global: true,
       signOptions: { expiresIn: '1d' },
