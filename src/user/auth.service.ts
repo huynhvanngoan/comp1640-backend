@@ -6,10 +6,14 @@ import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dtos/Login.dto';
 import { UserHelper } from 'src/helpers/user.helper';
 import { FacultyService } from 'src/faculty/faculty.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(User) private userRepo: Repository<User>,
     private jwtService: JwtService,
     private userService: UserService,
     private facultyService: FacultyService,
@@ -27,7 +31,15 @@ export class AuthService {
     requestBody.password = hashedPassword;
 
     // save to db
-    const savedUser = await this.userService.create(requestBody, facultyId);
+    const savedUser = await this.userRepo.create({
+      facultys: {
+        id: facultyId
+      },
+      firstName: requestBody.firstName,
+      lastName: requestBody.lastName,
+      email: requestBody.email,
+      password: requestBody.password,
+    });
 
     // generate jwt token
     const payload = UserHelper.generateUserPayload(savedUser);
@@ -36,6 +48,7 @@ export class AuthService {
       secret: process.env.JWT_SECRET,
     });
 
+    await this.userRepo.save(savedUser);
     return {
       msg: 'User has been created!',
       access_token,
