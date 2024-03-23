@@ -5,10 +5,13 @@ import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dtos/Login.dto';
 import { UserHelper } from 'src/helpers/user.helper';
+<<<<<<< HEAD
+=======
+import { FacultyService } from 'src/faculty/faculty.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-
+>>>>>>> eeaa50e53d81485b4bd53dac4ae2bb6502e86a1d
 
 @Injectable()
 export class AuthService {
