@@ -40,6 +40,13 @@ export class UserService {
   findById(id: number) {
     return this.userRepo.findOneBy({ id });
   }
+  findWithRelation(id: number) {
+    return this.userRepo.findOne({
+      where: { id }, relations: {
+        facultys: true
+      }
+    });
+  }
 
   findByEmail(email: string) {
     return this.userRepo.findOneBy({ email });

@@ -8,6 +8,7 @@ import { UserHelper } from 'src/helpers/user.helper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { Roles } from 'src/enums/roles.enum';
 
 
 @Injectable()
@@ -31,13 +32,14 @@ export class AuthService {
 
     // save to db
     const savedUser = await this.userRepo.create({
-      facultys: {
+      facultys: requestBody.facultyId ? {
         id: facultyId
-      },
+      } : null,
       firstName: requestBody.firstName,
       lastName: requestBody.lastName,
       email: requestBody.email,
       password: requestBody.password,
+      role: requestBody.role ? requestBody.role : Roles.GUEST,
     });
 
     // generate jwt token

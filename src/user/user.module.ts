@@ -9,6 +9,10 @@ import { Comment } from 'src/comments/entities/comment.entity';
 import { Article } from 'src/articles/entities/article.entity';
 import { Faculty } from 'src/faculty/entity/faculty.entity';
 import { FacultyService } from 'src/faculty/faculty.service';
+import { ArticlesService } from 'src/articles/articles.service';
+import { UploadService } from 'src/articles/upload.service';
+import { MailService } from 'src/mail/mail.service';
+import { Repository } from 'typeorm';
 
 @Module({
   imports: [
@@ -18,7 +22,7 @@ import { FacultyService } from 'src/faculty/faculty.service';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  providers: [UserService, AuthService, FacultyService],
+  providers: [UserService, AuthService, FacultyService, ArticlesService, UploadService, MailService],
   controllers: [UserController],
 })
 export class UserModule { }
