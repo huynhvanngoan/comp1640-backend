@@ -4,7 +4,7 @@ import { Comment } from 'src/comments/entities/comment.entity';
 
 import { Roles } from 'src/enums/roles.enum';
 import { Faculty } from 'src/faculty/entity/faculty.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 
 
 @Entity()
@@ -41,5 +41,6 @@ export class User {
     comments: Comment[];
 
     @ManyToOne(() => Faculty, faculty => faculty.user)
-    facultys: Faculty[];
+    @JoinColumn({ name: "facultyId", })
+    facultys: Faculty;
 }

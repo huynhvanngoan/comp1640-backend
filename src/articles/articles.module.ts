@@ -11,15 +11,17 @@ import { Comment } from 'src/comments/entities/comment.entity';
 import { CommentsService } from 'src/comments/comments.service';
 import { UploadService } from './upload.service';
 import { MailService } from 'src/mail/mail.service';
+import { FacultyService } from 'src/faculty/faculty.service';
+import { Faculty } from 'src/faculty/entity/faculty.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Article, User, Academicyear, Comment]),
+    TypeOrmModule.forFeature([Article, User, Academicyear, Comment, Faculty]),
     Comment
   ],
   controllers: [ArticlesController],
-  providers: [ArticlesService, UserService, AcademicYearService, UploadService, CommentsService, MailService],
+  providers: [ArticlesService, UserService, AcademicYearService, UploadService, CommentsService, MailService, FacultyService],
 
 })
 export class ArticlesModule { }

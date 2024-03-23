@@ -15,4 +15,7 @@ export class FacultyService {
         return this.facultyRepository.save(createFacultyDto)
     }
 
+    async findById(id: number): Promise<Faculty> {
+        return this.facultyRepository.findOneBy({ id });
+    }
 }

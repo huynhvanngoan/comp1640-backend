@@ -20,11 +20,9 @@ import { UserService } from './user.service';
 // import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { RegisterUserDto } from './dtos/register-user.dto';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dtos/Login.dto';
 import { CurrentUser } from './decorators/currentUser.decorator';
-
 import { RoleGuard } from 'src/guards/role.guard';
 import { User } from './entities/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';

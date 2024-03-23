@@ -5,6 +5,8 @@ import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dtos/Login.dto';
 import { UserHelper } from 'src/helpers/user.helper';
+
+import { FacultyService } from 'src/faculty/faculty.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';

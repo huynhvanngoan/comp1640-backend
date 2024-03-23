@@ -8,6 +8,7 @@ import { User } from './entities/user.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
 import { Article } from 'src/articles/entities/article.entity';
 import { Faculty } from 'src/faculty/entity/faculty.entity';
+import { FacultyService } from 'src/faculty/faculty.service';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { Faculty } from 'src/faculty/entity/faculty.entity';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  providers: [UserService, AuthService],
+  providers: [UserService, AuthService, FacultyService],
   controllers: [UserController],
 })
 export class UserModule { }

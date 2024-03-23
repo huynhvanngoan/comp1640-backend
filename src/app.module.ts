@@ -35,7 +35,6 @@ import { Faculty } from './faculty/entity/faculty.entity';
     CommentsModule,
     AdminModule,
     FacultyModule
-
   ],
   controllers: [AppController],
   providers: [AppService, FacultyService],

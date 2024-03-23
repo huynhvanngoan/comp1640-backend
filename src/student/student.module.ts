@@ -7,13 +7,21 @@ import { User } from 'src/user/entities/user.entity';
 import { ArticlesService } from 'src/articles/articles.service';
 import { Article } from 'src/articles/entities/article.entity';
 import { UploadService } from 'src/articles/upload.service';
+import { FacultyService } from 'src/faculty/faculty.service';
 import { MailService } from 'src/mail/mail.service';
+import { MailModule } from 'src/mail/mail.module';
+import { Faculty } from 'src/faculty/entity/faculty.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([User, Article])
-  ],
+  imports: [TypeOrmModule.forFeature([User, Article, Faculty]), MailModule],
   controllers: [StudentController],
-  providers: [StudentService, UserService, ArticlesService, UploadService, MailService],
+  providers: [
+    StudentService,
+    UserService,
+    ArticlesService,
+    UploadService,
+    MailService,
+    FacultyService,
+  ],
 })
 export class StudentModule {}
