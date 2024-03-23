@@ -5,15 +5,17 @@ import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dtos/Login.dto';
 import { UserHelper } from 'src/helpers/user.helper';
+import { FacultyService } from 'src/faculty/faculty.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UserService,
-  ) {}
+    private facultyService: FacultyService,
+  ) { }
 
-  async register(requestBody: RegisterUserDto) {
+  async register(requestBody: RegisterUserDto, facultyId: number) {
     // check email is exist
     const userByEmail = await this.userService.findByEmail(requestBody.email);
     if (userByEmail) {
@@ -24,9 +26,14 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(requestBody.password, 10);
     requestBody.password = hashedPassword;
 
-    // save to db
-    const savedUser = await this.userService.create(requestBody);
+    console.log(facultyId)
 
+    const faculty = await this.facultyService.findById(facultyId);
+    console.log(faculty)
+    // save to db
+    const savedUser = await this.userService.create({ ...requestBody, faculty: faculty });
+
+    console.log(savedUser)
     // generate jwt token
     const payload = UserHelper.generateUserPayload(savedUser);
 
@@ -36,6 +43,7 @@ export class AuthService {
 
     return {
       msg: 'User has been created!',
+      faculty,
       access_token,
       data: savedUser,
     };

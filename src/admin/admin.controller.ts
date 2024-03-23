@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { FacultyService } from 'src/faculty/faculty.service';
 import { CreateFacultyDto } from 'src/faculty/dto/faculty.dto';
@@ -13,8 +13,8 @@ export class AdminController {
     private readonly authService: AuthService,) { }
 
   @Post('create-user')
-  registerUser(@Body() requestBody: RegisterUserDto) {
-    return this.authService.register(requestBody);
+  registerUser(@Body() requestBody: RegisterUserDto, @Query('facultyId') facultyId: number) {
+    return this.authService.register(requestBody, facultyId);
   }
 
   @Post('/faculty')
