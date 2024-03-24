@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty,  IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { Roles } from 'src/enums/roles.enum';
 
 export class RegisterUserDto {
     @IsNotEmpty()
@@ -18,6 +19,11 @@ export class RegisterUserDto {
     @MinLength(6)
     password: string;
 
+    @IsNotEmpty()
+    role: Roles;
+
     @IsNotEmpty() // Thêm validator cho facultyId nếu cần
     facultyId: number;
+
+
 }

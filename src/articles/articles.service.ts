@@ -6,6 +6,7 @@ import { CreateArticleDto } from './dto/ceate-article.dto';
 import { User } from 'src/user/entities/user.entity';
 import { UploadService } from './upload.service';
 import { MailService } from 'src/mail/mail.service';
+import { UserService } from 'src/user/user.service';
 @Injectable()
 export class ArticlesService {
   constructor(
@@ -13,7 +14,8 @@ export class ArticlesService {
     private readonly articleRepository: Repository<Article>,
     private readonly uploadService: UploadService,
     private readonly mailService: MailService,
-  ) {}
+    private readonly userService: UserService,
+  ) { }
 
   async create(
     createArticleDto: CreateArticleDto,
@@ -57,8 +59,23 @@ export class ArticlesService {
     });
   }
 
-  async findAll(): Promise<Article[]> {
-    return this.articleRepository.find();
+  async findAll(currentUser: User): Promise<Article[]> {
+    const userWithRelation: User = await this.userService.findWithRelation(currentUser.id);
+    console.log(userWithRelation);
+    let faucultyID = userWithRelation?.facultys?.id;
+    if (!faucultyID) {
+      faucultyID = -1;
+    }
+    console.log(faucultyID, "faucultyID");
+    return this.articleRepository.find({
+      where: {
+        user: {
+          facultys: {
+            id: faucultyID
+          }
+        }
+      }
+    });
   }
 
   async findAdllByUserId(userId: number): Promise<Article[]> {

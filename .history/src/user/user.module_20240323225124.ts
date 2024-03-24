@@ -12,6 +12,7 @@ import { FacultyService } from 'src/faculty/faculty.service';
 import { ArticlesService } from 'src/articles/articles.service';
 import { UploadService } from 'src/articles/upload.service';
 import { MailService } from 'src/mail/mail.service';
+import { Repository } from 'typeorm';
 
 @Module({
   imports: [

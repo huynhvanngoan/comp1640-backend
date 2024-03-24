@@ -12,7 +12,7 @@ import { CommentsService } from 'src/comments/comments.service';
 import { Comment } from 'src/comments/entities/comment.entity';
 
 
-@Controller('articles')
+@Controller('api/articles')
 export class ArticlesController {
     constructor(private readonly articlesService: ArticlesService, private readonly commentsService: CommentsService
     ) { }
@@ -36,8 +36,10 @@ export class ArticlesController {
     }
 
     @Get()
-    findAll(): Promise<Article[]> {
-        return this.articlesService.findAll();
+    @UseGuards(AuthGuard)
+    findAll(@CurrentUser() currentUser: User): Promise<Article[]> {
+
+        return this.articlesService.findAll(currentUser);
     }
 
     @Get(':id')
