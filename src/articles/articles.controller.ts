@@ -21,6 +21,10 @@ export class ArticlesController {
     async acceptArticle(@Param('id') id: number): Promise<Article> {
         return this.articlesService.acceptArticle(id);
     }
+    @Put(':id/denied')
+    async deniedArticle(@Param('id') id: number): Promise<Article> {
+        return this.articlesService.deniedArticle(id);
+    }
 
     @Get('status/:status')
     async findByStatus(@Param('status') status: string): Promise<Article[]> {
@@ -42,6 +46,11 @@ export class ArticlesController {
         return this.articlesService.findAll(currentUser);
     }
 
+    @Get('/all')
+    async findAllArticle(): Promise<Article[]> {
+        return this.articlesService.findAllArticle();
+    }
+
     @Get(':id')
     findOne(@Param('id') id: string): Promise<Article> {
         return this.articlesService.findOne(+id);
@@ -56,5 +65,6 @@ export class ArticlesController {
     remove(@Param('id') id: string): Promise<void> {
         return this.articlesService.remove(+id);
     }
+
 
 }

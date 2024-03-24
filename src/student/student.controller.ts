@@ -7,6 +7,7 @@ import {
   UploadedFiles,
   Param,
   Get,
+  Req,
 } from '@nestjs/common';
 import { ArticlesService } from 'src/articles/articles.service';
 
@@ -25,9 +26,9 @@ export class StudentController {
   constructor(
     private articlesService: ArticlesService,
     private studentService: StudentService,
-  ) {}
+  ) { }
 
-  @Post('create-article')
+  @Post(':id/create-article')
   @UseGuards(AuthGuard)
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -38,20 +39,23 @@ export class StudentController {
   async create(
     @UploadedFiles()
     files: { image?: Express.Multer.File[]; file?: Express.Multer.File[] },
-    @Body() createArticleDto: CreateArticleDto,
-    @CurrentUser() currentUser: User,
+    @Req() req,
+    @CurrentUser() currentUser: User, @Param('id') academicId: number
   ): Promise<Article> {
+    const createArticleDto: CreateArticleDto = req.body;
     const article = await this.articlesService.create(
       createArticleDto,
       files.image?.[0],
       files.file?.[0],
       currentUser,
+      +academicId
     );
     return article;
   }
 
+
   @Get(':id')
-  async findAdllByUserId(@Param('id') id:number): Promise<Article[]> {
+  async findAdllByUserId(@Param('id') id: number): Promise<Article[]> {
     return await this.articlesService.findAdllByUserId(+id);
   }
 }

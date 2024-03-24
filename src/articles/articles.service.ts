@@ -9,6 +9,7 @@ import { MailService } from 'src/mail/mail.service';
 import { UserService } from 'src/user/user.service';
 @Injectable()
 export class ArticlesService {
+  static academicId: number;
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
@@ -16,15 +17,19 @@ export class ArticlesService {
     private readonly mailService: MailService,
     private readonly userService: UserService,
   ) { }
-
   async create(
     createArticleDto: CreateArticleDto,
     image?: Express.Multer.File,
     file?: Express.Multer.File,
     currentUser?: User,
+    academicId?: number
   ): Promise<Article> {
-    const article = this.articleRepository.create(createArticleDto);
-    article.user = currentUser;
+    const article = this.articleRepository.create({
+      title: createArticleDto.title,
+      content: createArticleDto.content,
+      user: { id: currentUser.id },
+      academic: { id: academicId }
+    });
 
     if (image) {
       const imagePath = await this.uploadService.uploadImage(image);
@@ -42,6 +47,7 @@ export class ArticlesService {
     return article;
   }
 
+
   async acceptArticle(id: number): Promise<Article> {
     const article = await this.articleRepository.findOneBy({ id });
     if (!article) {
@@ -51,10 +57,28 @@ export class ArticlesService {
     return this.articleRepository.save(article);
   }
 
+  async deniedArticle(id: number): Promise<Article> {
+    const article = await this.articleRepository.findOneBy({ id });
+    if (!article) {
+      throw new Error('Article not found');
+    }
+    article.status = 'dynied';
+    return this.articleRepository.save(article);
+  }
+
   async findByStatus(status: string): Promise<Article[]> {
     return this.articleRepository.find({
       where: {
         status: status,
+      },
+    });
+  }
+  async findByAcademic(academicId: number): Promise<Article[]> {
+    return this.articleRepository.find({
+      where: {
+        academic: {
+          id: academicId
+        },
       },
     });
   }
@@ -84,6 +108,10 @@ export class ArticlesService {
         user: { id: userId },
       },
     });
+  }
+
+  async findAllArticle(): Promise<Article[]> {
+    return await this.articleRepository.find();
   }
 
   async findOne(id: number): Promise<Article> {

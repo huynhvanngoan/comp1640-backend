@@ -8,4 +8,8 @@ export class CreateArticleDto {
     @IsNotEmpty()
     @IsString()
     content: string;
+
+    file: string;
+
+    image: string;
 }
