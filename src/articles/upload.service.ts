@@ -43,7 +43,7 @@ export class UploadService {
       );
     }
 
-    return imagePath;
+    return fileNameWithExtension;
   }
 
   // Hàm xử lý upload tài liệu
@@ -74,7 +74,7 @@ export class UploadService {
       );
     }
 
-    return documentPath;
+    return fileNameWithExtension;
   }
 
   // Validator cho Multer

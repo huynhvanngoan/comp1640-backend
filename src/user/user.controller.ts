@@ -117,7 +117,7 @@ export class UserController {
     }
     return this.userService.updateAvatar(
       req.user_data.id,
-      file.destination + '/' + file.filename,
+      file.filename,
     );
   }
 }
