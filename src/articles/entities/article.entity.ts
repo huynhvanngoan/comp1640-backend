@@ -31,7 +31,7 @@ export class Article {
   @Column({ default: 'Pending' })
   status: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
   @CreateDateColumn()

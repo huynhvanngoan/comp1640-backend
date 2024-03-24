@@ -3,14 +3,22 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { AcademicYearService } from './academic-year.service';
 import { Academicyear } from './entities/academic-year.entity';
+import { Article } from 'src/articles/entities/article.entity';
+import { ArticlesService } from 'src/articles/articles.service';
 
 @Controller('academic-years')
 export class AcademicYearController {
-  constructor(private readonly academicYearService: AcademicYearService) { }
+  constructor(private readonly academicYearService: AcademicYearService,
+    private readonly articlesService: ArticlesService) { }
 
   @Get()
   async findAll(): Promise<Academicyear[]> {
     return this.academicYearService.findAll();
+  }
+
+  @Get('article/:id')
+  async findByStatus(@Param('id') academicId: number): Promise<Article[]> {
+    return this.articlesService.findByAcademic(academicId);
   }
 
   @Get(':id')
